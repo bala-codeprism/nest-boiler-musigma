@@ -1,0 +1,37 @@
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { UserService } from './user.service';
+import { Logger } from 'src/shared/logger/logger.service';
+import { AddUserDto } from './dto/addUser.dto';
+import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
+
+@Controller('user')
+@UseGuards(JwtAuthGuard)
+export class UserController {
+  constructor(private readonly userService: UserService,
+    private readonly logger: Logger) {}
+
+  @Get()
+ async getAllUsers() {
+   try {
+    return await this.userService.findAllUser();
+   } catch (error) {
+    this.logger.error(error)
+   }
+  }
+  @Get("/:id")
+ async getUserById(@Param('id') id: number) {
+   try {
+    return await this.userService.findById(id);
+   } catch (error) {
+    this.logger.error(error)
+   }
+  }
+  @Post("addUser")
+ async addUser(@Body() userDto: AddUserDto) {
+   try {
+    return await this.userService.addUser(userDto);
+   } catch (error) {
+    this.logger.error(error)
+   }
+  }
+}
