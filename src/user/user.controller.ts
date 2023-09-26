@@ -1,9 +1,20 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Logger } from 'src/shared/logger/logger.service';
 import { AddUserDto } from './dto/addUser.dto';
 import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
+import { ApiBearerAuth, ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+import GlobalStrings from 'src/shared/constants/globalStrings';
 
+@ApiTags('user')
+@ApiBearerAuth()
+@ApiHeader({name: 'token', required: true})
+@ApiResponse({
+    status: HttpStatus.OK,
+  description: GlobalStrings.successStatus},)
+  @ApiResponse({status: HttpStatus.BAD_REQUEST, description: GlobalStrings.errorStatus})
+  @ApiResponse({status:HttpStatus.INTERNAL_SERVER_ERROR, description:GlobalStrings.internalServerError})
+  @ApiResponse({status: HttpStatus.FORBIDDEN, description: GlobalStrings.forbiddenContent})
 @Controller('user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
