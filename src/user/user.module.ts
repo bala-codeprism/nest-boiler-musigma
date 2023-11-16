@@ -3,11 +3,11 @@ import { LoggerModule } from 'src/shared/logger/logger.module';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { AuthModule } from 'src/auth/auth.module';
-import { AppConfigModule } from 'src/shared/config/config.module';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
-    imports: [LoggerModule, forwardRef(() => AuthModule)],
+    imports: [JwtModule,LoggerModule, forwardRef(() => AuthModule)],
     providers: [UserService],
     controllers:[UserController],
     exports: [UserService],
