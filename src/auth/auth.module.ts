@@ -7,14 +7,19 @@ import { LoggerModule } from 'src/shared/logger/logger.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtUserStrategy } from './passport/jwt.strategy';
 import { AppConfigModule } from 'src/shared/config/config.module';
+import { AppConfigService } from 'src/shared/config/config.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: 'jwt' }),
-  JwtModule.register({
-    secretOrPrivateKey: process.env.JWT_SECRET,
-    signOptions: {
-      expiresIn: process.env.JWT_EXP_TIME,
-    },
+  JwtModule.registerAsync({
+    imports: [AppConfigModule],
+    useFactory: async (configService: AppConfigService) => ({
+      secretOrPrivateKey: configService.secret,
+      signOptions: {
+        expiresIn: configService.jwtExpTime
+      },
+    }),
+    inject: [AppConfigService],
   }),
     UserModule,
     LoggerModule,
@@ -22,6 +27,6 @@ import { AppConfigModule } from 'src/shared/config/config.module';
   ],
   providers: [AuthService, JwtUserStrategy],
   controllers: [AuthController],
-  exports:[PassportModule]
+  exports: [PassportModule]
 })
 export class AuthModule { }

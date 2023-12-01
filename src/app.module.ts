@@ -6,7 +6,7 @@ import { UserModule } from './user/user.module';
 import { AppConfigModule } from './shared/config/config.module';
 
 @Module({
-  imports: [AuthModule, UserModule, AppConfigModule],
+  imports: [AppConfigModule,AuthModule, UserModule],
   providers:[
     {
       provide: APP_FILTER,
