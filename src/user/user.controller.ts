@@ -5,10 +5,11 @@ import { AddUserDto } from './dto/addUser.dto';
 import { ApiBearerAuth, ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import GlobalStrings from 'src/shared/constants/globalStrings';
 import { LocalAuthGuard } from 'src/auth/guards/auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwtAuth.guard';
 
 @ApiTags('user')
 @ApiBearerAuth()
-@ApiHeader({name: 'token', required: true})
+// @ApiHeader({name: 'token', required: true})
 @ApiResponse({
     status: HttpStatus.OK,
   description: GlobalStrings.successStatus},)
@@ -16,8 +17,8 @@ import { LocalAuthGuard } from 'src/auth/guards/auth.guard';
   @ApiResponse({status:HttpStatus.INTERNAL_SERVER_ERROR, description:GlobalStrings.internalServerError})
   @ApiResponse({status: HttpStatus.FORBIDDEN, description: GlobalStrings.forbiddenContent})
 @Controller('user')
-// @UseGuards(JwtAuthGuard)
-@UseGuards(LocalAuthGuard)
+@UseGuards(JwtAuthGuard)
+// @UseGuards(LocalAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService,
     private readonly logger: Logger) {}

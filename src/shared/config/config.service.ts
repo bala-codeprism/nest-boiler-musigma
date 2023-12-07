@@ -7,8 +7,8 @@ import { ConfigService } from '@nestjs/config';
  */
 @Injectable()
 export class AppConfigService {
-  constructor(private configService: ConfigService) {}
-  
+  constructor(private configService: ConfigService) { }
+
   get name(): string {
     return this.configService.get<string>('app.name');
   }
@@ -16,12 +16,12 @@ export class AppConfigService {
     return this.configService.get<string>('app.env');
   }
   get port(): number {
-   return Number(this.configService.get<number>('app.port'));
+    return Number(this.configService.get<number>('app.port'));
   }
   get secret(): string {
     return this.configService.get<string>('app.secret');
   }
-   get jwtExpTime(): number {
+  get jwtExpTime(): number {
     return this.configService.get<number>('app.jwtExpTime');
   }
   get refreshSecret(): string {
@@ -29,5 +29,13 @@ export class AppConfigService {
   }
   get jwtRefreshExpTime(): string {
     return this.configService.get<string>('app.jwtRefreshExpTime');
+  }
+
+  get msalTenantId(): string {
+    return this.configService.get<string>('app.msalTenantId');
+  }
+
+  get msalAppId(): string {
+    return this.configService.get<string>('app.msalAppId');
   }
 }

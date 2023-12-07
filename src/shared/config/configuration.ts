@@ -7,4 +7,6 @@ export default registerAs('app', () => ({
   jwtExpTime: process.env.JWT_EXP_TIME,
   refreshSecret: process.env.JWT_REFRESH_SECRET,
   jwtRefreshExpTime: process.env.JWT_REFRESH_EXP_TIME,
+  msalTenantId: process.env.MSAL_TENANT_ID,
+  msalAppId: process.env.MSAL_APP_ID
 }));

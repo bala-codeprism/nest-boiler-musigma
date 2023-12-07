@@ -1,12 +1,13 @@
 import * as Joi from 'joi';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import configuration from './configuration';
 import { AppConfigService } from './config.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV === 'development' ? '.env.development': '.env.production' ,
+      envFilePath: process.env.NODE_ENV === 'development' ? '.env.development' : '.env.production',
       load: [configuration],
       isGlobal: true,
       validationSchema: Joi.object({
@@ -23,4 +24,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   providers: [ConfigService, AppConfigService],
   exports: [ConfigService, AppConfigService],
 })
-export class AppConfigModule {}
+export class AppConfigModule { }
